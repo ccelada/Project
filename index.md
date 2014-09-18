@@ -7,7 +7,7 @@ output: html_document
 What is this App?
 ================
 
-This is a shiny app that helps you analize the short-term and long term trend of the exchange rate between guatemalan quetzal and US dollar. The shinyapp itself is hosted at the shinyapp.io website. You can reach the app following this [link]("http://talent.shinyapps.io/Project")
+This is a shiny app that helps you analize the short-term and long term trend of the exchange rate between guatemalan quetzal and US dollar. The shinyapp itself is hosted at the shinyapp.io website. You can reach the app following this [link]("https://talent.shinyapps.io/Project/")
 
 The data comes from Guatemalan Central Bank's [website]("http://banguat.gob.gt/default.asp?lang=2") and it is read using the site's webservices every time the app starts that is, each time you open or refresh the web page, which means this app will allways display the most current information available from the central bank.
 
