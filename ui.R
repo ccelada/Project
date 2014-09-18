@@ -33,7 +33,7 @@ shinyUI(
                              2014 are displayed)."),
                            p("It might take some time to display the plot the first time you visit 
                              this tab, since the data is being read and transformed in order to draw 
-                             the plot. Once the data is loaded, changing the years is a lot faster"),
+                             the plot. Once the data is loaded, changing the years is a lot faster."),
                            p("Below the plot, the exchange rate for the last 7 days is displayed.")
                     ), ## Second column ends (daily)
                     column(4, 
