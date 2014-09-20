@@ -3,6 +3,7 @@ bitops
 data.table
 forecast
 ggplot2
+knitr
 lubridate
 manipulate
 RCurl
