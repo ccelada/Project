@@ -20,7 +20,7 @@ In Guatemala, many companies need to keep track of the exchange rate for several
 2. Some companies export their products and price their items in US$
 3. Financial reports to parent companies outside Guatemala are mostly stated in US$
 
-For these companies, it is important to understant the long term and short term trends of the exchange rate. It is also important to have some kind of forecast in order to plan ahead and make important decisions (such as when to buy a specific supply how to stock for a high-seasonality period)
+For these companies, it is important to understand the long term and short term trends of the exchange rate. It is also important to have some kind of forecast in order to plan ahead and make important decisions (such as when to buy a specific supply how to stock for a high-seasonality period)
 
 The *exchange rate shiny app* aims to help you make informed decesion and keep track of this important indicator in a simple and reliable way. In order to be reliable, each time you visit the [exchange rate shiny app page](https://talent.shinyapps.io/Project/) data is loaded from [Guatemalan central bank's page](http://banguat.gob.gt/default.asp?lang=2) via web service.
 
