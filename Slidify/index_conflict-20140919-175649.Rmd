@@ -1,0 +1,138 @@
+---
+title       : GTQ - US$ Exchange Rate
+subtitle    : 
+author      : Carlos Celada
+job         : 
+logo        : 
+framework   : io2012        # {io2012, html5slides, shower, dzslides, ...}
+highlighter : prettify      # {highlight.js, prettify, highlight}
+hitheme     : tomorrow      # 
+widgets     : []            # {mathjax, quiz, bootstrap}
+mode        : selfcontained # {standalone, draft}
+knit        : slidify::knit2slides
+---
+
+## The Exchange Rate Shiny App
+
+In Guatemala, many companies need to keep track of the exchange rate for several reasons:
+
+1. When supplies are bought from other countries, prices are generally quoted in US$
+2. Some companies export their products and price their items in US$
+3. Financial reports to parent companies outside Guatemala are mostly stated in US$
+
+For these companies, it is important to understant the long term and short term trends of the exchange rate. It is also important to have some kind of forecast in order to plan ahead and make important decisions (such as when to buy a specific supply how to stock for a high-seasonality period)
+
+The *exchange rate shiny app* aims to help you make informed decesion and keep track of this important indicator in a simple and reliable way. In order to be reliable, each time you visit the [exchange rate shiny app page](https://talent.shinyapps.io/Project/) data is loaded from Guatemalan central bank's page via web service.
+
+--- .class #id 
+## Daily Exchange Rate Chart
+
+This chart will help you visualize the trend and seasonality of the exchange rate. When you first visit this tab, information is displayed for years 2011 - 2014. You can select which years you want displayed using the checkboxes provided to the left ot the chart.
+```{r, cache=TRUE, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+library(RCurl)
+library(XML)
+library(manipulate)
+library(ggplot2)
+library(scales)
+library(lubridate)
+library(data.table)
+library(forecast)
+
+## SOAP request Header Fields
+headerFields <- c('Content-Type' = "text/xml; charset=utf-8", 
+                  SOAPAction = "http://www.banguat.gob.gt/variables/ws/TipoCambioFechaInicial")
+
+
+## SOAP request Body
+body <- '<?xml version="1.0" encoding="utf-8"?>
+<soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+    <soap:Body>
+        <TipoCambioFechaInicial xmlns="http://www.banguat.gob.gt/variables/ws/">
+            <fechainit>01/01/2000</fechainit>
+        </TipoCambioFechaInicial>
+    </soap:Body>
+</soap:Envelope>'
+
+## get data from central bank's website via webservice
+reader=basicTextGatherer()
+curlPerform(url="http://www.banguat.gob.gt/variables/ws/TipoCambio.asmx",
+            httpheader = headerFields,
+            postfields=body,
+            writefunction=reader$update)
+
+## Parse returned XML
+xmldata <- xmlParse(reader$value(), asText=TRUE)
+rootNode <- xmlRoot(xmldata)
+
+## Determine # of records from XML
+records <- as.numeric(xmlSApply(rootNode[[1]][[1]][[1]],xmlValue)[2])
+
+## Build dataframe from XML
+xrate <- data.frame(date=rep("",records),sell=rep(NA,records),buy=rep(NA,records),xRate=rep(NA,records),stringsAsFactors=FALSE)
+for(i in 1:records){
+    xrate[i,1:3] <- xmlSApply(rootNode[[1]][[1]][[1]][[1]][[i]],xmlValue)[-1]
+}
+
+## Convert exchange rates to numeric
+xrate[,2] <- as.numeric(xrate[,2])
+xrate[,3] <- as.numeric(xrate[,3])
+
+## Prior to Dec 2006 central bank reported two exchange rate values (sell & buy)
+## Starting Dec 02, 2006 sell & buy values are equal and correspond to the 
+## officialy reported "reference" exchange rate.
+## For all dates, we consider the average between buy & sell values as the "reference" exchange rate
+xrate[,4] <- (xrate[,2]+xrate[,3])/2
+
+## Transform dates (imported as text) to actual dates (POSIX values)
+xrate$date <- dmy(xrate$date)
+xrate$year <- as.factor(year(xrate$date))
+
+## This second date value will allow to plot different years in a single "time" axis
+xrate$date2 <- ymd(paste0("2000",substr(as.character(xrate$date),5,10)))
+```
+```{r, echo=FALSE, fig.width=14, fig.height=6}
+## The actual plot with years 2011 - 2014
+ggplot(xrate[as.numeric(as.character(xrate$year)) %in% c(2011:2014),], aes(date2, xRate, group=year)) + 
+        geom_line(aes(colour=year)) + scale_colour_hue(l=45) +
+        labs(x="", y="Tipo de Cambio, Q/US$") +
+        scale_x_datetime(labels = date_format("%b"), breaks = date_breaks("months"))
+```
+
+--- .class #id 
+## Monthly Exchange Rate Chart
+
+This chart shows a monthly summarization of the exchange rate, and helps you visualize its long term trend over the last 15 years (from Jan 2000 up until the last available date in the bank's website). It also shows a forecast of the exchange rate for the next months. You can select the method of summarization and the forecasting horizon
+```{r, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
+## Create summary using data.table package
+xrate$ym <- paste0(lubridate::year(xrate$date),lubridate::month(xrate$date,label=TRUE, abbr=TRUE))
+x.rate <- data.table(xrate)
+summary <- as.data.frame(x.rate[,mean(xRate),by=ym])
+
+## Create time series for the mean exchange rate
+TimeSeries <- ts(summary[,2],start=2000,freq=12)
+
+## Forecast using auto.arima() and predict using forecast.Arima()
+fit.x.rate <- auto.arima(TimeSeries)
+prediction <- forecast.Arima(fit.x.rate,h=24,level=95)
+```
+```{r, echo=FALSE, fig.width=14, fig.height=6}
+plot(TimeSeries, col="blue", xlim=c(2000,2017), ylim=c(7.2,8.4), ylab="Average Exchange Rate in Month")
+lines(prediction$mean, col="red")
+lines(ts(prediction$lower, start=c(year(xrate[records,1]),month(xrate[records,1])+1), freq=12), 
+      col="red", lty=3)
+lines(ts(prediction$upper, start=c(year(xrate[records,1]),month(xrate[records,1])+1), freq=12), 
+      col="red", lty=3)
+legend(x="topright",c("observed","forecast", "95% conf. interval"), col=c("blue", "red", "red"), lty=c(1,1,3))
+```
+
+--- .class #id 
+## Remarks
+
+* Exchange rates are allways up to date as they are read from [Banguat](http://banguat.gob.gt/default.asp?lang=2)
+
+* Banguat's website returns data in a format not suitable for plotting and analizing (XML). Please allow some time for the plots to be generated when you first visit the [App](https://talent.shinyapps.io/Project/)
+
+* Keep in mind that the forecast is only a guide, as its only input is the observed exchange rate values. (i.e, it does not depend on other macroeconomic variables)
+
+* Note that the confidence interval for the forecast is generally bigger for points further in time. This is the reason you might want a forecast with fewer months.
+

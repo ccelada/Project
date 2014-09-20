@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>GTQ - US$ Exchange Rate</title>
+  <meta charset="utf-8">
+  <meta name="description" content="GTQ - US$ Exchange Rate">
+  <meta name="author" content="Carlos Celada">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/prettify/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>GTQ - US$ Exchange Rate</h1>
+    <h2>Shiny App</h2>
+    <p>Carlos Celada<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>The Exchange Rate Shiny App</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>In Guatemala, many companies need to keep track of the exchange rate for several reasons:</p>
+
+<ol>
+<li>When supplies are bought from other countries, prices are generally quoted in US$</li>
+<li>Some companies export their products and price their items in US$</li>
+<li>Financial reports to parent companies outside Guatemala are mostly stated in US$</li>
+</ol>
+
+<p>For these companies, it is important to understant the long term and short term trends of the exchange rate. It is also important to have some kind of forecast in order to plan ahead and make important decisions (such as when to buy a specific supply how to stock for a high-seasonality period)</p>
+
+<p>The <em>exchange rate shiny app</em> aims to help you make informed decesion and keep track of this important indicator in a simple and reliable way. In order to be reliable, each time you visit the <a href="https://talent.shinyapps.io/Project/">exchange rate shiny app page</a> data is loaded from <a href="http://banguat.gob.gt/default.asp?lang=2">Guatemalan central bank&#39;s page</a> via web service.</p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Daily Exchange Rate Chart</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This chart will help you visualize the trend and seasonality of the exchange rate. When you first visit this tab, information is displayed for years 2011 - 2014. You can select which years you want displayed using the checkboxes provided to the left ot the chart.</p>
+
+<p><img src="assets/fig/unnamed-chunk-2.png" alt="plot of chunk unnamed-chunk-2"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Monthly Exchange Rate Chart</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>This chart shows a monthly summarization of the exchange rate, and helps you visualize its long term trend over the last 15 years (from Jan 2000 up until the last available date in the bank&#39;s website). It also shows a forecast of the exchange rate for the next months. You can select the method of summarization and the forecasting horizon.</p>
+
+<p><img src="assets/fig/unnamed-chunk-4.png" alt="plot of chunk unnamed-chunk-4"> </p>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="class" id="id" style="background:;">
+  <hgroup>
+    <h2>Remarks</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Exchange rates are allways up to date as they are read from <a href="http://banguat.gob.gt/default.asp?lang=2">Banguat</a>.</p></li>
+<li><p>Banguat&#39;s website returns data in a format not suitable for plotting and analizing (XML). Please allow some time for the plots to be generated when you first visit the <a href="https://talent.shinyapps.io/Project/">App</a>.</p></li>
+<li><p>Keep in mind that the forecast is only a guide, as its only input is the observed exchange rate values. (i.e, it does not depend on other macroeconomic variables)</p></li>
+<li><p>Note that the confidence interval for the forecast is generally bigger for points further in time. This is the reason why you might want fewer months in the forecast.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='The Exchange Rate Shiny App'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Daily Exchange Rate Chart'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Monthly Exchange Rate Chart'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Remarks'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- Google Prettify -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+  <script src='libraries/highlighters/prettify/js/lang-r.js'></script>
+  <script>
+    var pres = document.getElementsByTagName("pre");
+    for (var i=0; i < pres.length; ++i) {
+      pres[i].className = "prettyprint linenums";
+    }
+    prettyPrint();
+  </script>
+  <!-- End Google Prettify --> 
+  </html>

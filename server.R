@@ -46,7 +46,7 @@ xrate <- data.frame(
 for(i in 1:records){
     xrate[i,1:3] <- xmlSApply(rootNode[[1]][[1]][[1]][[1]][[i]],xmlValue)[-1]
 }
-## Convert to exchange rates to numeric
+## Convert exchange rates to numeric
 xrate[,2] <- as.numeric(xrate[,2])
 xrate[,3] <- as.numeric(xrate[,3])
 
@@ -72,10 +72,9 @@ summary3 <- as.data.frame(x.rate[,min(xRate),by=ym])
 summary4 <- as.data.frame(x.rate[,.SD[1, xRate], by=ym])
 summary5 <- as.data.frame(x.rate[,.SD[.N, xRate], by=ym])
 
-## Create prediction models using auto.arima from forecast package for each variable
+## Create 5 different time series, one for each variable
 for(i in 1:5){
     assign(paste0("ts", as.character(i)),ts(get(paste0("summary", as.character(i)))[,2],start=2000,freq=12))
-    ##assign(paste0("fit",as.character(i)),auto.arima(get(paste0("ts",as.character(i)))))
 }
 
 ## This dataframe is needed to label the summary plot (second tab)
@@ -111,7 +110,7 @@ shinyServer(function(input, output) {
     })
     
     output$SummaryPlot <- renderPlot({
-        TimeSeries <- ts(get(paste0("summary", as.character(input$SelectedF)))[,2],start=2000,freq=12)
+        TimeSeries <- get(paste0("ts", as.character(input$SelectedF)))
         plot(TimeSeries, col="blue", xlim=c(2000,2017), ylim=c(7.2,8.4), 
              ylab=summaryylabs[summaryylabs[,1]==input$SelectedF,2])
         lines(prediction()$mean, col="red")
@@ -119,6 +118,7 @@ shinyServer(function(input, output) {
               col="red", lty=3)
         lines(ts(prediction()$upper, start=c(year(xrate[records,1]),month(xrate[records,1])+1), freq=12), 
               col="red", lty=3)
+        legend(x="topright",c("observed","forecast", "95% conf. interval"), col=c("blue", "red", "red"), lty=c(1,1,3))
     })
     output$Forecasts <- renderPrint({
         round(prediction()$mean,digits=3)
