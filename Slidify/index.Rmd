@@ -31,7 +31,6 @@ This chart will help you visualize the trend and seasonality of the exchange rat
 ```{r, cache=TRUE, echo=FALSE, warning=FALSE, message=FALSE, results='hide'}
 library(RCurl)
 library(XML)
-library(manipulate)
 library(ggplot2)
 library(scales)
 library(lubridate)
