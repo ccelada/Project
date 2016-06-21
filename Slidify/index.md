@@ -29,14 +29,14 @@ The *exchange rate shiny app* aims to help you make informed decesion and keep t
 
 This chart will help you visualize the trend and seasonality of the exchange rate. When you first visit this tab, information is displayed for years 2011 - 2014. You can select which years you want displayed using the checkboxes provided to the left ot the chart.
 
-![plot of chunk unnamed-chunk-2](assets/fig/unnamed-chunk-2.png) 
+![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png)
 
 --- .class #id 
 ## Monthly Exchange Rate Chart
 
 This chart shows a monthly summarization of the exchange rate, and helps you visualize its long term trend over the last 15 years (from Jan 2000 up until the last available date in the bank's website). It also shows a forecast of the exchange rate for the next months. You can select the method of summarization and the forecasting horizon.
 
-![plot of chunk unnamed-chunk-4](assets/fig/unnamed-chunk-4.png) 
+![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png)
 
 --- .class #id 
 ## Remarks

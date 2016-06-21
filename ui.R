@@ -1,4 +1,5 @@
 library(shiny)
+library(plotly)
 shinyUI(
     navbarPage(
         "GTQ-US$ Exchange Rate",
@@ -29,8 +30,8 @@ shinyUI(
                            p("This tab displays a plot of the daily exchange rate from January 1st,
                              2000 until the last day available from banguat's website. Each line in
                              the plot represents a year, and you can choose which years to display
-                             by checking the boxes to the left of the plot (initially, years 2011 - 
-                             2014 are displayed)."),
+                             by checking the boxes to the left of the plot (initially, years 2012 - 
+                             2015 are displayed)."),
                            p("It might take some time to display the plot the first time you visit 
                              this tab, since the data is being read and transformed in order to draw 
                              the plot. Once the data is loaded, changing the years is a lot faster."),
@@ -87,15 +88,18 @@ shinyUI(
                                 "2011" = 2011,
                                 "2012" = 2012,
                                 "2013" = 2013,
-                                "2014" = 2014),
-                            selected = c(2011, 2012, 2013, 2014)
+                                "2014" = 2014,
+                                "2015" = 2015,
+                                "2016" = 2016),
+                            selected = c(2013, 2014, 2015, 2016)
                         )
                     ),
                     mainPanel(
                         ##img(src="logo.png"),
-                        plotOutput("XRatePlot"),
-                        h4("Selected Years:"),
-                        verbatimTextOutput("selected"),
+                        ##plotlyOutput("XRatePlot"),
+                        htmlOutput("gvisPlot"),
+                        ##h4("Selected Years:"),
+                        ##verbatimTextOutput("selected"),
                         h4("Exchange Rate for the Last 7 Days:"),
                         verbatimTextOutput("XRateLastN")
                         )
@@ -129,7 +133,10 @@ shinyUI(
                     ),
                     mainPanel(
                         ## img(src="logo.png"),
-                        plotOutput("SummaryPlot"),
+                        ##plotOutput("SummaryPlot"),
+                        htmlOutput("SummaryPlotGvis"),
+                        h4("Exchange Rate Actuals:"),
+                        verbatimTextOutput("Actuals"),
                         h4("Exchange Rate Forecast:"),
                         verbatimTextOutput("Forecasts")
                     )
